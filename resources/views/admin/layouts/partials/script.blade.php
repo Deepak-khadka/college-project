@@ -6,3 +6,9 @@
 <script src="{{ asset('admin/js/custom/modals/create-app.js') }}"></script>
 <script src="{{ asset('admin/js/custom/modals/upgrade-plan.js') }}"></script>
 @stack('js')
+
+<script>
+    $('.logout').on('click', function () {
+        $('.logout-form').submit();
+    })
+</script>

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @include('admin.layouts.partials.breadcrumb', ['panel' => 'Homepage'])
+{{--    @include('admin.layouts.partials.breadcrumb', ['panel' => 'Homepage'])--}}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <div id="kt_content_container" class="container">
