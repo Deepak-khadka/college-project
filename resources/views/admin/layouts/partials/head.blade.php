@@ -2,7 +2,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>E-Health | @yield('title') </title>
+    <title>{{ env('APP_NAME') }} | @yield('title') </title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
     <!--begin::Fonts-->
