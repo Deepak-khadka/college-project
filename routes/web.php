@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +18,7 @@ Auth::routes();
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::resource('/customer-profile', \App\Http\Controllers\CustomerController::class);
 
 require __DIR__.'/auth.php';
