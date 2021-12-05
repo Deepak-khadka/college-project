@@ -63,7 +63,7 @@
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-50px me-5">
-                                        <img src="assets/media/stock/600x400/img-26.jpg" class="" alt=""/>
+                                        <img src="{{ asset('') }}" class="" alt=""/>
                                     </div>
                                     <div class="d-flex justify-content-start flex-column">
                                         <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $category->name }}</a>
@@ -89,7 +89,7 @@
                                 <code>{{ $category->created_at->diffForHumans() }}</code>
                             </td>
                             <td class="text-end">
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                <a href="{{ route('admin.category.show', $category->slug) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <!--begin::Svg Icon | path: icons/duotone/General/Settings-1.svg-->
                                     <span class="svg-icon svg-icon-3">
 																	<svg xmlns="http://www.w3.org/2000/svg"
@@ -236,6 +236,10 @@
                         </tbody>
                         <!--end::Table body-->
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $data['categories']->links() }}
+                    </div>
+
                     <!--end::Table-->
                 </div>
                 <!--end::Table container-->

@@ -5,6 +5,9 @@
 <script src="{{ asset('admin/js/custom/apps/chat/chat.js') }}"></script>
 <script src="{{ asset('admin/js/custom/modals/create-app.js') }}"></script>
 <script src="{{ asset('admin/js/custom/modals/upgrade-plan.js') }}"></script>
+
+@livewireScripts
+
 @stack('js')
 
 <script>

@@ -12,5 +12,12 @@
     <link href="{{ asset('admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 
+    @livewireStyles
+
+    <style>
+        span.error {
+            color: red;
+        }
+    </style>
     @stack('css')
 </head>

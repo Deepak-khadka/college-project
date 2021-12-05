@@ -36,8 +36,9 @@
     <!--end::Svg Icon-->
 </div>
 
-@include('admin.layouts.partials.script')
 
 </body>
+
+@include('admin.layouts.partials.script')
 
 </html>

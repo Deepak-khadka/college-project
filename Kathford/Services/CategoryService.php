@@ -3,6 +3,7 @@
 namespace Kathford\Services;
 
 use App\Models\Category;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Kathford\Lib\Category\IsShown;
@@ -35,7 +36,7 @@ class CategoryService extends BaseService
 
     /**
      * @param $filters
-     * @return Collection|array
+     * @return LengthAwarePaginator
      */
     public function getCategories($filters)
     {
@@ -69,7 +70,7 @@ class CategoryService extends BaseService
                 $query->whereBetween('created_at', [$start_date, $end_date]);
             })
             ->orderBy('order')
-            ->get();
+            ->simplePaginate(8);
     }
 
     public function getParentCategories()
@@ -77,4 +78,13 @@ class CategoryService extends BaseService
         return $this->model->orderBy('order')->where('parent_id', '=', Level::PARENT)->pluck('name', 'id');
     }
 
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function findBySlug($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
+    }
 }

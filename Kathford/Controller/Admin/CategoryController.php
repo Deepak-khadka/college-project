@@ -2,6 +2,7 @@
 
 namespace Kathford\Controller\Admin;
 
+use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -34,6 +35,9 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
+        if($request->ajax()) {
+            dd('here ');
+        }
         $data = [];
         $data['filter'] = Arr::get($request, 'filter');
         $data['categories'] = $this->categoryService->getCategories($data['filter']);
@@ -48,9 +52,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $data = [];
-        $data['parent_category'] = $this->categoryService->getParentCategories();
-       return view('admin.category.create', compact('data'));
+        return view('admin.category.create');
     }
 
     /**
@@ -68,12 +70,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Category $id
+     * @param $slug
      * @return Application|Factory|View|Response
      */
 
-    public function show(Category $id)
+    public function show($slug)
     {
+       $category =  $this->categoryService->findBySlug($slug);
+      return  \view('admin.category.show', compact('category'));
 
     }
 

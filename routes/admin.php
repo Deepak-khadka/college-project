@@ -7,3 +7,5 @@ Route::get('/dashboard',  function () {
 })->name('dashboard');
 
 Route::resource('category', 'CategoryController');
+
+Route::resource('profile', 'ProfileController');
