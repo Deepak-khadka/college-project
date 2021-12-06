@@ -31,11 +31,11 @@ class UserServices
     }
 
     /**
-     * @return Authenticatable|null
+     * @return int|string|null
      */
-    public function getActiveUser(): ?Authenticatable
+    public function getActiveUser()
     {
-      dd(Auth::id());
+        return auth()->id();
     }
 
 }

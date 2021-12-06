@@ -21,8 +21,17 @@ namespace Illuminate\Http {
      * @method static array validateWithBag(string $errorBag, array $rules, ...$params)
      * @method static bool hasValidSignature($absolute = true)
      * @method static bool hasValidRelativeSignature()
+     * @method static bool inertia()
      */
     class Request {}
+}
+
+namespace Illuminate\Routing {
+    
+    /**
+     * @method static Route inertia($uri, $component, $props = [])
+     */
+    class Router {}
 }
 
 namespace Illuminate\Support {

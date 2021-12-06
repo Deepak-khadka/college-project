@@ -35,9 +35,6 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            dd('here ');
-        }
         $data = [];
         $data['filter'] = Arr::get($request, 'filter');
         $data['categories'] = $this->categoryService->getCategories($data['filter']);

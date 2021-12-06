@@ -166,6 +166,8 @@ namespace Collective\Html {
      * @method static \Illuminate\Contracts\Session\Session getSessionStore()
      * @see \Collective\Html\FormBuilder::reset
      * @method static \Illuminate\Support\HtmlString reset(string $value, array $attributes = [])
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Collective\Html\FormBuilder::week
      * @method static \Illuminate\Support\HtmlString week(string $name, string $value = null, array $options = [])
      * @see \Collective\Html\FormBuilder::color
@@ -284,6 +286,8 @@ namespace Collective\Html {
      * @method static bool hasComponent($name)
      * @see \Collective\Html\HtmlBuilder::linkAsset
      * @method static \Illuminate\Support\HtmlString linkAsset(string $url, string $title = null, array $attributes = [], bool $secure = null, bool $escape = true)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      */
     class HtmlFacade {}
 }
@@ -340,7 +344,7 @@ namespace Facade\Ignition\Facades {
      * @see \Facade\FlareClient\Flare::handleError
      * @method static void handleError($code, $message, $file = '', $line = 0)
      * @see \Facade\FlareClient\Flare::report
-     * @method static void report(\Throwable $throwable, callable $callback = null)
+     * @method static \Facade\FlareClient\Report|null report(\Throwable $throwable, callable $callback = null)
      * @see \Facade\FlareClient\Flare::reset
      * @method static void reset()
      * @see \Facade\FlareClient\Flare::glow
@@ -700,6 +704,8 @@ namespace Illuminate\Support\Facades {
      * @method static void setDefaultCacheTime(int|null $seconds)
      * @see \Illuminate\Cache\Repository::offsetUnset
      * @method static void offsetUnset(string $key)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Cache\Repository::offsetGet
      * @method static array|mixed offsetGet(string $key)
      * @see \Illuminate\Cache\Repository::setEventDispatcher
@@ -778,6 +784,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Symfony\Component\HttpFoundation\Cookie forever(string $name, string $value, null|string $path = null, null|string $domain = null, bool|null $secure = null, bool $httpOnly = true, bool $raw = false, null|string $sameSite = null)
      * @see \Illuminate\Cookie\CookieJar::make
      * @method static \Symfony\Component\HttpFoundation\Cookie make(string $name, string $value, int $minutes = 0, null|string $path = null, null|string $domain = null, bool|null $secure = null, bool $httpOnly = true, bool $raw = false, null|string $sameSite = null)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Cookie\CookieJar::queue
      * @method static void queue(...$parameters)
      * @see \Illuminate\Cookie\CookieJar::flushQueuedCookies
@@ -952,6 +960,8 @@ namespace Illuminate\Support\Facades {
      * @method static int delete(string $query, array $bindings = [])
      * @see \Illuminate\Database\Connection::setRecordModificationState
      * @method static void setRecordModificationState(bool $value)
+     * @see \Illuminate\Database\Connection::beforeExecuting
+     * @method static void beforeExecuting(\Closure $callback)
      * @see \Illuminate\Database\DatabaseManager::setApplication
      * @method static void setApplication(\Illuminate\Contracts\Foundation\Application $app)
      * @see \Illuminate\Database\Connection::statement
@@ -989,7 +999,7 @@ namespace Illuminate\Support\Facades {
      * @see \Illuminate\Events\Dispatcher::flush
      * @method static void flush(string $event)
      * @see \Illuminate\Events\Dispatcher::makeListener
-     * @method static \Closure makeListener(\Closure|string $listener, bool $wildcard = false)
+     * @method static \Closure makeListener(array|\Closure|string $listener, bool $wildcard = false)
      * @see \Illuminate\Support\Traits\Macroable::macro
      * @method static void macro(string $name, callable|object $macro)
      * @see \Illuminate\Events\Dispatcher::setQueueResolver
@@ -1008,6 +1018,8 @@ namespace Illuminate\Support\Facades {
      * @method static array|null until(object|string $event, $payload = [])
      * @see \Illuminate\Events\Dispatcher::forgetPushed
      * @method static void forgetPushed()
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Events\Dispatcher::createClassListener
      * @method static \Closure createClassListener(string $listener, bool $wildcard = false)
      * @see \Illuminate\Events\Dispatcher::getListeners
@@ -1016,40 +1028,66 @@ namespace Illuminate\Support\Facades {
     class Event {}
     
     /**
-     * @see \Illuminate\Filesystem\Filesystem::extension
-     * @method static string extension(string $path)
      * @see \Illuminate\Filesystem\Filesystem::ensureDirectoryExists
      * @method static void ensureDirectoryExists(string $path, int $mode = 0755, bool $recursive = true)
      * @see \Illuminate\Filesystem\Filesystem::isWritable
      * @method static bool isWritable(string $path)
      * @see \Illuminate\Filesystem\Filesystem::prepend
      * @method static bool|int prepend(string $path, string $data)
-     * @see \Illuminate\Filesystem\Filesystem::link
-     * @method static void link(string $target, string $link)
-     * @see \Illuminate\Filesystem\Filesystem::glob
-     * @method static array glob(string $pattern, int $flags = 0)
      * @see \Illuminate\Filesystem\Filesystem::replace
      * @method static void replace(string $path, string $content)
      * @see \Illuminate\Filesystem\Filesystem::type
      * @method static string type(string $path)
      * @see \Illuminate\Filesystem\Filesystem::dirname
      * @method static string dirname(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::delete
-     * @method static bool delete(array|string $paths)
      * @see \Illuminate\Filesystem\Filesystem::put
      * @method static bool|int put(string $path, string $contents, bool $lock = false)
-     * @see \Illuminate\Filesystem\Filesystem::requireOnce
-     * @method static mixed requireOnce(string $path, array $data = [])
      * @see \Illuminate\Filesystem\Filesystem::copyDirectory
      * @method static bool copyDirectory(string $directory, string $destination, int|null $options = null)
      * @see \Illuminate\Filesystem\Filesystem::relativeLink
      * @method static void relativeLink(string $target, string $link)
+     * @see \Illuminate\Filesystem\Filesystem::isFile
+     * @method static bool isFile(string $file)
+     * @see \Illuminate\Filesystem\Filesystem::guessExtension
+     * @method static null|string guessExtension(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::getRequire
+     * @method static mixed getRequire(string $path, array $data = [])
+     * @see \Illuminate\Support\Traits\Macroable::mixin
+     * @method static void mixin(object $mixin, bool $replace = true)
+     * @see \Illuminate\Filesystem\Filesystem::basename
+     * @method static string basename(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::size
+     * @method static int size(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::lastModified
+     * @method static int lastModified(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::isReadable
+     * @method static bool isReadable(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::name
+     * @method static string name(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::files
+     * @method static \Symfony\Component\Finder\SplFileInfo[] files(string $directory, bool $hidden = false)
+     * @see \Illuminate\Filesystem\Filesystem::cleanDirectory
+     * @method static bool cleanDirectory(string $directory)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
+     * @see \Illuminate\Filesystem\Filesystem::hash
+     * @method static string hash(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::deleteDirectories
+     * @method static bool deleteDirectories(string $directory)
+     * @see \Illuminate\Filesystem\Filesystem::extension
+     * @method static string extension(string $path)
+     * @see \Illuminate\Filesystem\Filesystem::link
+     * @method static void link(string $target, string $link)
+     * @see \Illuminate\Filesystem\Filesystem::glob
+     * @method static array glob(string $pattern, int $flags = 0)
+     * @see \Illuminate\Filesystem\Filesystem::delete
+     * @method static bool delete(array|string $paths)
+     * @see \Illuminate\Filesystem\Filesystem::requireOnce
+     * @method static mixed requireOnce(string $path, array $data = [])
      * @see \Illuminate\Support\Traits\Macroable::hasMacro
      * @method static bool hasMacro(string $name)
      * @see \Illuminate\Filesystem\Filesystem::get
      * @method static string get(string $path, bool $lock = false)
-     * @see \Illuminate\Filesystem\Filesystem::isFile
-     * @method static bool isFile(string $file)
      * @see \Illuminate\Filesystem\Filesystem::missing
      * @method static bool missing(string $path)
      * @see \Illuminate\Filesystem\Filesystem::directories
@@ -1064,48 +1102,26 @@ namespace Illuminate\Support\Facades {
      * @method static void macro(string $name, callable|object $macro)
      * @see \Illuminate\Filesystem\Filesystem::move
      * @method static bool move(string $path, string $target)
-     * @see \Illuminate\Filesystem\Filesystem::guessExtension
-     * @method static null|string guessExtension(string $path)
      * @see \Illuminate\Filesystem\Filesystem::isDirectory
      * @method static bool isDirectory(string $directory)
      * @see \Illuminate\Filesystem\Filesystem::moveDirectory
      * @method static bool moveDirectory(string $from, string $to, bool $overwrite = false)
      * @see \Illuminate\Filesystem\Filesystem::sharedGet
      * @method static string sharedGet(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::getRequire
-     * @method static mixed getRequire(string $path, array $data = [])
+     * @see \Illuminate\Filesystem\Filesystem::replaceInFile
+     * @method static void replaceInFile(array|string $search, array|string $replace, string $path)
      * @see \Illuminate\Filesystem\Filesystem::deleteDirectory
      * @method static bool deleteDirectory(string $directory, bool $preserve = false)
-     * @see \Illuminate\Support\Traits\Macroable::mixin
-     * @method static void mixin(object $mixin, bool $replace = true)
-     * @see \Illuminate\Filesystem\Filesystem::basename
-     * @method static string basename(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::size
-     * @method static int size(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::lastModified
-     * @method static int lastModified(string $path)
      * @see \Illuminate\Filesystem\Filesystem::makeDirectory
      * @method static bool makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false)
-     * @see \Illuminate\Filesystem\Filesystem::isReadable
-     * @method static bool isReadable(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::name
-     * @method static string name(string $path)
-     * @see \Illuminate\Filesystem\Filesystem::files
-     * @method static \Symfony\Component\Finder\SplFileInfo[] files(string $directory, bool $hidden = false)
      * @see \Illuminate\Filesystem\Filesystem::exists
      * @method static bool exists(string $path)
      * @see \Illuminate\Filesystem\Filesystem::mimeType
      * @method static false|string mimeType(string $path)
      * @see \Illuminate\Filesystem\Filesystem::allFiles
      * @method static \Symfony\Component\Finder\SplFileInfo[] allFiles(string $directory, bool $hidden = false)
-     * @see \Illuminate\Filesystem\Filesystem::cleanDirectory
-     * @method static bool cleanDirectory(string $directory)
-     * @see \Illuminate\Filesystem\Filesystem::hash
-     * @method static string hash(string $path)
      * @see \Illuminate\Filesystem\Filesystem::append
      * @method static int append(string $path, string $data)
-     * @see \Illuminate\Filesystem\Filesystem::deleteDirectories
-     * @method static bool deleteDirectories(string $directory)
      */
     class File {}
     
@@ -1224,6 +1240,8 @@ namespace Illuminate\Support\Facades {
      * @method static void assertNothingSent()
      * @see \Illuminate\Http\Client\Factory::send
      * @method static \Illuminate\Http\Client\Response send(string $method, string $url, array $options = [])
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Http\Client\Factory::withoutVerifying
      * @method static \Illuminate\Http\Client\PendingRequest withoutVerifying()
      * @see \Illuminate\Http\Client\Factory::assertSentInOrder
@@ -1253,7 +1271,7 @@ namespace Illuminate\Support\Facades {
      * @see \Illuminate\Http\Client\Factory::attach
      * @method static \Illuminate\Http\Client\PendingRequest attach(array|string $name, string $contents = '', null|string $filename = null, array $headers = [])
      * @see \Illuminate\Http\Client\Factory::retry
-     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0)
+     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, callable|null $when = null)
      * @see \Illuminate\Support\Traits\Macroable::macro
      * @method static void macro(string $name, callable|object $macro)
      * @see \Illuminate\Http\Client\Factory::bodyFormat
@@ -1320,6 +1338,8 @@ namespace Illuminate\Support\Facades {
      * @method static void addNamespace(string $namespace, string $hint)
      * @see \Illuminate\Translation\Translator::getFallback
      * @method static string getFallback()
+     * @see \Illuminate\Support\NamespacedItemResolver::flushParsedKeys
+     * @method static void flushParsedKeys()
      * @see \Illuminate\Translation\Translator::getLoader
      * @method static \Illuminate\Contracts\Translation\Loader getLoader()
      * @see \Illuminate\Translation\Translator::getSelector
@@ -1332,6 +1352,8 @@ namespace Illuminate\Support\Facades {
      * @method static string getLocale()
      * @see \Illuminate\Translation\Translator::choice
      * @method static string choice(string $key, array|\Countable|int $number, array $replace = [], null|string $locale = null)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Translation\Translator::setSelector
      * @method static void setSelector(\Illuminate\Translation\MessageSelector $selector)
      */
@@ -1346,6 +1368,8 @@ namespace Illuminate\Support\Facades {
      * @method static void log(string $level, string $message, array $context = [])
      * @see \Illuminate\Log\Logger::emergency
      * @method static void emergency(string $message, array $context = [])
+     * @see \Illuminate\Log\Logger::withContext
+     * @method static void withContext(array $context = [])
      * @see \Illuminate\Log\Logger::getLogger
      * @method static \Psr\Log\LoggerInterface getLogger()
      * @see \Illuminate\Log\Logger::error
@@ -1360,6 +1384,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Contracts\Events\Dispatcher|null getEventDispatcher()
      * @see \Illuminate\Log\Logger::warning
      * @method static void warning(string $message, array $context = [])
+     * @see \Illuminate\Log\Logger::withoutContext
+     * @method static void withoutContext()
      * @see \Illuminate\Log\Logger::write
      * @method static void write(string $level, string $message, array $context = [])
      * @see \Illuminate\Log\Logger::info
@@ -1418,20 +1444,24 @@ namespace Illuminate\Support\Facades {
      * @method static void send(array|\Illuminate\Contracts\Mail\Mailable|string $view, array $data = [], \Closure|null|string $callback = null)
      * @see \Illuminate\Mail\Mailer::queueOn
      * @method static mixed queueOn(string $queue, \Illuminate\Contracts\Mail\Mailable $view)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Mail\Mailer::queue
      * @method static mixed queue(array|\Illuminate\Contracts\Mail\Mailable|string $view, null|string $queue = null)
+     * @see \Illuminate\Support\Testing\Fakes\MailFake::queued
+     * @method static \Illuminate\Support\Collection queued(\Closure|string $mailable, callable|null $callback = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNothingQueued
      * @method static void assertNothingQueued()
+     * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNotOutgoing
+     * @method static void assertNotOutgoing(\Closure|string $mailable, callable|null $callback = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNotQueued
-     * @method static void assertNotQueued(string $mailable, callable|null $callback = null)
-     * @see \Illuminate\Support\Testing\Fakes\MailFake::queued
-     * @method static \Illuminate\Support\Collection queued(string $mailable, callable|null $callback = null)
+     * @method static void assertNotQueued(\Closure|string $mailable, callable|null $callback = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::hasSent
      * @method static bool hasSent(string $mailable)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::mailer
      * @method static \Illuminate\Contracts\Mail\Mailer mailer(null|string $name = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::sent
-     * @method static \Illuminate\Support\Collection sent(string $mailable, callable|null $callback = null)
+     * @method static \Illuminate\Support\Collection sent(\Closure|string $mailable, callable|null $callback = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertQueued
      * @method static void assertQueued(\Closure|string $mailable, callable|int|null $callback = null)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertSent
@@ -1440,8 +1470,10 @@ namespace Illuminate\Support\Facades {
      * @method static bool hasQueued(string $mailable)
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNothingSent
      * @method static void assertNothingSent()
+     * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNothingOutgoing
+     * @method static void assertNothingOutgoing()
      * @see \Illuminate\Support\Testing\Fakes\MailFake::assertNotSent
-     * @method static void assertNotSent(string $mailable, callable|null $callback = null)
+     * @method static void assertNotSent(\Closure|string $mailable, callable|null $callback = null)
      */
     class Mail {}
     
@@ -1487,7 +1519,7 @@ namespace Illuminate\Support\Facades {
      * @see \Illuminate\Testing\ParallelTesting::callSetUpProcessCallbacks
      * @method static void callSetUpProcessCallbacks()
      * @see \Illuminate\Testing\ParallelTesting::token
-     * @method static false|int token()
+     * @method static false|string token()
      * @see \Illuminate\Testing\ParallelTesting::setUpTestDatabase
      * @method static void setUpTestDatabase(callable $callback)
      * @see \Illuminate\Testing\ParallelTesting::tearDownProcess
@@ -1600,8 +1632,14 @@ namespace Illuminate\Support\Facades {
      * @method static void clear(string $key)
      * @see \Illuminate\Cache\RateLimiter::tooManyAttempts
      * @method static bool tooManyAttempts(string $key, int $maxAttempts)
+     * @see \Illuminate\Cache\RateLimiter::attempt
+     * @method static false|mixed attempt(string $key, int $maxAttempts, \Closure $callback, int $decaySeconds = 60)
+     * @see \Illuminate\Cache\RateLimiter::remaining
+     * @method static int remaining(string $key, int $maxAttempts)
      * @see \Illuminate\Cache\RateLimiter::hit
      * @method static int hit(string $key, int $decaySeconds = 60)
+     * @see \Illuminate\Cache\RateLimiter::cleanRateLimiterKey
+     * @method static string cleanRateLimiterKey(string $key)
      * @see \Illuminate\Cache\RateLimiter::resetAttempts
      * @method static mixed resetAttempts(string $key)
      * @see \Illuminate\Cache\RateLimiter::limiter
@@ -1646,6 +1684,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Http\RedirectResponse guest(string $path, int $status = 302, array $headers = [], bool|null $secure = null)
      * @see \Illuminate\Routing\Redirector::to
      * @method static \Illuminate\Http\RedirectResponse to(string $path, int $status = 302, array $headers = [], bool|null $secure = null)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Routing\Redirector::getUrlGenerator
      * @method static \Illuminate\Routing\UrlGenerator getUrlGenerator()
      */
@@ -1702,10 +1742,22 @@ namespace Illuminate\Support\Facades {
      * @method static void unsetEventDispatcher()
      * @see \Illuminate\Support\Traits\Macroable::macroCall
      * @method static mixed macroCall(string $method, array $parameters)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      */
     class Redis {}
     
     /**
+     * @see \Illuminate\Http\Request::inertia
+     * @method static bool inertia()
+     * @see \Illuminate\Http\Request::hasValidSignature
+     * @method static bool hasValidSignature($absolute = true)
+     * @see \Illuminate\Http\Request::validateWithBag
+     * @method static array validateWithBag(string $errorBag, array $rules, ...$params)
+     * @see \Illuminate\Http\Request::hasValidRelativeSignature
+     * @method static bool hasValidRelativeSignature()
+     * @see \Illuminate\Http\Request::validate
+     * @method static array validate(array $rules, ...$params)
      * @see \Illuminate\Http\Request::createFrom
      * @method static \Illuminate\Http\Request createFrom(\Illuminate\Http\Request $from, \Illuminate\Http\Request|null $to = null)
      * @see \Symfony\Component\HttpFoundation\Request::hasPreviousSession
@@ -1807,9 +1859,11 @@ namespace Illuminate\Support\Facades {
      * @see \Symfony\Component\HttpFoundation\Request::setDefaultLocale
      * @method static void setDefaultLocale(string $locale)
      * @see \Symfony\Component\HttpFoundation\Request::getPort
-     * @method static int|string getPort()
+     * @method static int|null|string getPort()
      * @see \Illuminate\Http\Request::setRouteResolver
      * @method static void setRouteResolver(\Closure $callback)
+     * @see \Illuminate\Http\Request::fullUrlWithoutQuery
+     * @method static string fullUrlWithoutQuery($keys)
      * @see \Symfony\Component\HttpFoundation\Request::setRequestFormat
      * @method static void setRequestFormat(null|string $format)
      * @see \Illuminate\Http\Request::userAgent
@@ -1840,10 +1894,8 @@ namespace Illuminate\Support\Facades {
      * @method static bool matchesType(string $actual, string $type)
      * @see \Illuminate\Http\Concerns\InteractsWithContentTypes::acceptsJson
      * @method static bool acceptsJson()
-     * @see \Illuminate\Http\Request::validate
-     * @method static array validate(array $rules, ...$params)
      * @see \Illuminate\Http\Concerns\InteractsWithInput::whenHas
-     * @method static mixed whenHas(string $key, callable $callback)
+     * @method static mixed whenHas(string $key, callable $callback, callable $default = null)
      * @see \Illuminate\Http\Concerns\InteractsWithContentTypes::prefers
      * @method static null|string prefers(array|string $contentTypes)
      * @see \Symfony\Component\HttpFoundation\Request::getTrustedProxies
@@ -1866,8 +1918,6 @@ namespace Illuminate\Support\Facades {
      * @method static void setMethod(string $method)
      * @see \Symfony\Component\HttpFoundation\Request::getHost
      * @method static string getHost()
-     * @see \Illuminate\Http\Request::hasValidSignature
-     * @method static bool hasValidSignature(bool $absolute = true)
      * @see \Symfony\Component\HttpFoundation\Request::getPassword
      * @method static null|string getPassword()
      * @see \Symfony\Component\HttpFoundation\Request::getLocale
@@ -1925,7 +1975,7 @@ namespace Illuminate\Support\Facades {
      * @see \Illuminate\Http\Concerns\InteractsWithContentTypes::isJson
      * @method static bool isJson()
      * @see \Illuminate\Http\Concerns\InteractsWithInput::whenFilled
-     * @method static mixed whenFilled(string $key, callable $callback)
+     * @method static mixed whenFilled(string $key, callable $callback, callable $default = null)
      * @see \Symfony\Component\HttpFoundation\Request::setSession
      * @method static void setSession(\Symfony\Component\HttpFoundation\Session\SessionInterface $session)
      * @see \Illuminate\Http\Request::routeIs
@@ -1944,8 +1994,6 @@ namespace Illuminate\Support\Facades {
      * @method static null|string getClientIp()
      * @see \Illuminate\Support\Traits\Macroable::mixin
      * @method static void mixin(object $mixin, bool $replace = true)
-     * @see \Illuminate\Http\Request::validateWithBag
-     * @method static array validateWithBag(string $errorBag, array $rules, ...$params)
      * @see \Illuminate\Http\Concerns\InteractsWithInput::hasCookie
      * @method static bool hasCookie(string $key)
      * @see \Symfony\Component\HttpFoundation\Request::getUser
@@ -1956,6 +2004,10 @@ namespace Illuminate\Support\Facades {
      * @method static array|null|string header(null|string $key = null, array|null|string $default = null)
      * @see \Symfony\Component\HttpFoundation\Request::getBasePath
      * @method static string getBasePath()
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
+     * @see \Illuminate\Http\Concerns\InteractsWithInput::collect
+     * @method static \Illuminate\Support\Collection collect(array|null|string $key = null)
      * @see \Illuminate\Http\Request::offsetGet
      * @method static mixed offsetGet(string $offset)
      * @see \Illuminate\Http\Concerns\InteractsWithInput::anyFilled
@@ -2028,8 +2080,6 @@ namespace Illuminate\Support\Facades {
      * @method static mixed user(null|string $guard = null)
      * @see \Symfony\Component\HttpFoundation\Request::getLanguages
      * @method static array getLanguages()
-     * @see \Illuminate\Http\Request::hasValidRelativeSignature
-     * @method static bool hasValidRelativeSignature()
      */
     class Request {}
     
@@ -2059,97 +2109,57 @@ namespace Illuminate\Support\Facades {
      * @see \Illuminate\Contracts\Routing\ResponseFactory::redirectToRoute
      * @method static \Illuminate\Http\RedirectResponse redirectToRoute(string $route, $parameters = [], int $status = 302, array $headers = [])
      * @see \Illuminate\Contracts\Routing\ResponseFactory::make
-     * @method static \Illuminate\Http\Response make(string $content = '', int $status = 200, array $headers = [])
+     * @method static \Illuminate\Http\Response make(array|string $content = '', int $status = 200, array $headers = [])
      * @see \Illuminate\Contracts\Routing\ResponseFactory::redirectToAction
      * @method static \Illuminate\Http\RedirectResponse redirectToAction(string $action, $parameters = [], int $status = 302, array $headers = [])
      */
     class Response {}
     
     /**
+     * @see \Illuminate\Routing\Router::inertia
+     * @method static \Illuminate\Routing\Route inertia($uri, $component, $props = [])
+     * @see \Illuminate\Routing\RouteRegistrar::scopeBindings
+     * @method static \Illuminate\Routing\RouteRegistrar scopeBindings()
      * @see \Illuminate\Routing\Router::apiResources
      * @method static void apiResources(array $resources, array $options = [])
-     * @see \Illuminate\Routing\Router::currentRouteName
-     * @method static null|string currentRouteName()
-     * @see \Illuminate\Routing\Router::dispatch
-     * @method static \Symfony\Component\HttpFoundation\Response dispatch(\Illuminate\Http\Request $request)
      * @see \Illuminate\Routing\Router::getLastGroupPrefix
      * @method static string getLastGroupPrefix()
-     * @see \Illuminate\Routing\Router::newRoute
-     * @method static \Illuminate\Routing\Route newRoute(array|string $methods, string $uri, $action)
      * @see \Illuminate\Routing\Router::substituteBindings
      * @method static \Illuminate\Routing\Route substituteBindings(\Illuminate\Routing\Route $route)
      * @see \Illuminate\Routing\Router::put
      * @method static \Illuminate\Routing\Route put(string $uri, array|callable|null|string $action = null)
      * @see \Illuminate\Routing\Router::permanentRedirect
      * @method static \Illuminate\Routing\Route permanentRedirect(string $uri, string $destination)
-     * @see \Illuminate\Routing\Router::setContainer
-     * @method static void setContainer(\Illuminate\Container\Container $container)
      * @see \Illuminate\Routing\Router::patch
      * @method static \Illuminate\Routing\Route patch(string $uri, array|callable|null|string $action = null)
-     * @see \Illuminate\Routing\Router::view
-     * @method static \Illuminate\Routing\Route view(string $uri, string $view, array $data = [], array|int $status = 200, array $headers = [])
      * @see \Illuminate\Routing\Router::bind
      * @method static void bind(string $key, callable|string $binder)
-     * @see \Illuminate\Routing\Router::post
-     * @method static \Illuminate\Routing\Route post(string $uri, array|callable|null|string $action = null)
      * @see \Illuminate\Routing\Router::toResponse
      * @method static \Symfony\Component\HttpFoundation\Response toResponse(\Symfony\Component\HttpFoundation\Request $request, $response)
      * @see \Illuminate\Routing\Router::options
      * @method static \Illuminate\Routing\Route options(string $uri, array|callable|null|string $action = null)
      * @see \Illuminate\Routing\Router::model
      * @method static void model(string $key, string $class, \Closure $callback = null)
-     * @see \Illuminate\Routing\Router::has
-     * @method static bool has(string $name)
-     * @see \Illuminate\Routing\Router::group
-     * @method static void group(array $attributes, \Closure|string $routes)
-     * @see \Illuminate\Routing\Router::currentRouteAction
-     * @method static null|string currentRouteAction()
-     * @see \Illuminate\Routing\Router::getBindingCallback
-     * @method static \Closure|null getBindingCallback(string $key)
      * @see \Illuminate\Routing\Router::hasMiddlewareGroup
      * @method static bool hasMiddlewareGroup(string $name)
-     * @see \Illuminate\Routing\Router::resource
-     * @method static \Illuminate\Routing\PendingResourceRegistration resource(string $name, string $controller, array $options = [])
-     * @see \Illuminate\Routing\Router::pushMiddlewareToGroup
-     * @method static void pushMiddlewareToGroup(string $group, string $middleware)
-     * @see \Illuminate\Routing\Router::patterns
-     * @method static void patterns(array $patterns)
-     * @see \Illuminate\Routing\Router::respondWithRoute
-     * @method static \Symfony\Component\HttpFoundation\Response respondWithRoute(string $name)
      * @see \Illuminate\Routing\Router::prependMiddlewareToGroup
      * @method static void prependMiddlewareToGroup(string $group, string $middleware)
      * @see \Illuminate\Routing\Router::addRoute
      * @method static \Illuminate\Routing\Route addRoute(array|string $methods, string $uri, array|callable|null|string $action)
      * @see \Illuminate\Routing\Router::aliasMiddleware
      * @method static void aliasMiddleware(string $name, string $class)
-     * @see \Illuminate\Routing\Router::getMiddlewareGroups
-     * @method static array getMiddlewareGroups()
      * @see \Illuminate\Routing\Router::is
      * @method static bool is(...$patterns)
-     * @see \Illuminate\Routing\Router::dispatchToRoute
-     * @method static \Symfony\Component\HttpFoundation\Response dispatchToRoute(\Illuminate\Http\Request $request)
-     * @see \Illuminate\Routing\Router::getRoutes
-     * @method static \Illuminate\Routing\RouteCollection|\Illuminate\Routing\RouteCollectionInterface getRoutes()
-     * @see \Illuminate\Routing\Router::apiResource
-     * @method static \Illuminate\Routing\PendingResourceRegistration apiResource(string $name, string $controller, array $options = [])
-     * @see \Illuminate\Support\Traits\Macroable::mixin
-     * @method static void mixin(object $mixin, bool $replace = true)
      * @see \Illuminate\Routing\Router::input
      * @method static mixed input(string $key, null|string $default = null)
      * @see \Illuminate\Routing\RouteRegistrar::as
      * @method static \Illuminate\Routing\RouteRegistrar as(string $value)
      * @see \Illuminate\Routing\RouteRegistrar::domain
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
-     * @see \Illuminate\Routing\RouteRegistrar::name
-     * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
      * @see \Illuminate\Routing\Router::matched
      * @method static void matched(callable|string $callback)
-     * @see \Illuminate\Routing\Router::fallback
-     * @method static \Illuminate\Routing\Route fallback(array|callable|null|string $action)
      * @see \Illuminate\Routing\Router::currentRouteUses
      * @method static bool currentRouteUses(string $action)
-     * @see \Illuminate\Routing\Router::getGroupStack
-     * @method static array getGroupStack()
      * @see \Illuminate\Routing\Router::resourceVerbs
      * @method static array|null resourceVerbs(array $verbs = [])
      * @see \Illuminate\Routing\Router::singularResourceParameters
@@ -2158,66 +2168,114 @@ namespace Illuminate\Support\Facades {
      * @method static void pattern(string $key, string $pattern)
      * @see \Illuminate\Routing\Router::substituteImplicitBindings
      * @method static void substituteImplicitBindings(\Illuminate\Routing\Route $route)
-     * @see \Illuminate\Routing\Router::delete
-     * @method static \Illuminate\Routing\Route delete(string $uri, array|callable|null|string $action = null)
-     * @see \Illuminate\Routing\Router::flushMiddlewareGroups
-     * @method static void flushMiddlewareGroups()
-     * @see \Illuminate\Routing\Router::setCompiledRoutes
-     * @method static void setCompiledRoutes(array $routes)
      * @see \Illuminate\Routing\Router::current
      * @method static \Illuminate\Routing\Route|null current()
      * @see \Illuminate\Routing\Router::hasGroupStack
      * @method static bool hasGroupStack()
      * @see \Illuminate\Support\Traits\Macroable::hasMacro
      * @method static bool hasMacro(string $name)
-     * @see \Illuminate\Routing\Router::getMiddleware
-     * @method static array getMiddleware()
      * @see \Illuminate\Routing\Router::get
      * @method static \Illuminate\Routing\Route get(string $uri, array|callable|null|string $action = null)
      * @see \Illuminate\Routing\Router::gatherRouteMiddleware
      * @method static array gatherRouteMiddleware(\Illuminate\Routing\Route $route)
-     * @see \Illuminate\Routing\Router::resourceParameters
-     * @method static void resourceParameters(array $parameters = [])
      * @see \Illuminate\Routing\RouteRegistrar::where
      * @method static \Illuminate\Routing\RouteRegistrar where(array $where)
      * @see \Illuminate\Routing\Router::uniqueMiddleware
      * @method static array uniqueMiddleware(array $middleware)
      * @see \Illuminate\Routing\RouteRegistrar::attribute
      * @method static void attribute(string $key, $value)
+     * @see \Illuminate\Routing\Router::redirect
+     * @method static \Illuminate\Routing\Route redirect(string $uri, string $destination, int $status = 302)
+     * @see \Illuminate\Routing\Router::middlewareGroup
+     * @method static void middlewareGroup(string $name, array $middleware)
+     * @see \Illuminate\Routing\RouteRegistrar::withoutMiddleware
+     * @method static \Illuminate\Routing\RouteRegistrar withoutMiddleware(array|string $middleware)
+     * @see \Illuminate\Routing\Router::currentRouteNamed
+     * @method static bool currentRouteNamed(...$patterns)
+     * @see \Illuminate\Routing\Router::getCurrentRequest
+     * @method static \Illuminate\Http\Request getCurrentRequest()
+     * @see \Illuminate\Routing\Router::prepareResponse
+     * @method static \Symfony\Component\HttpFoundation\Response prepareResponse(\Symfony\Component\HttpFoundation\Request $request, $response)
+     * @see \Illuminate\Routing\Router::getCurrentRoute
+     * @method static \Illuminate\Routing\Route|null getCurrentRoute()
+     * @see \Illuminate\Support\Traits\Macroable::macroCall
+     * @method static mixed macroCall(string $method, array $parameters)
+     * @see \Illuminate\Routing\Router::getPatterns
+     * @method static array getPatterns()
+     * @see \Illuminate\Routing\Router::currentRouteName
+     * @method static null|string currentRouteName()
+     * @see \Illuminate\Routing\Router::dispatch
+     * @method static \Symfony\Component\HttpFoundation\Response dispatch(\Illuminate\Http\Request $request)
+     * @see \Illuminate\Routing\Router::newRoute
+     * @method static \Illuminate\Routing\Route newRoute(array|string $methods, string $uri, $action)
+     * @see \Illuminate\Routing\Router::setContainer
+     * @method static void setContainer(\Illuminate\Container\Container $container)
+     * @see \Illuminate\Routing\Router::view
+     * @method static \Illuminate\Routing\Route view(string $uri, string $view, array $data = [], array|int $status = 200, array $headers = [])
+     * @see \Illuminate\Routing\Router::post
+     * @method static \Illuminate\Routing\Route post(string $uri, array|callable|null|string $action = null)
+     * @see \Illuminate\Routing\Router::has
+     * @method static bool has(string $name)
+     * @see \Illuminate\Routing\Router::group
+     * @method static void group(array $attributes, \Closure|string $routes)
+     * @see \Illuminate\Routing\Router::currentRouteAction
+     * @method static null|string currentRouteAction()
+     * @see \Illuminate\Routing\Router::getBindingCallback
+     * @method static \Closure|null getBindingCallback(string $key)
+     * @see \Illuminate\Routing\Router::resource
+     * @method static \Illuminate\Routing\PendingResourceRegistration resource(string $name, string $controller, array $options = [])
+     * @see \Illuminate\Routing\Router::pushMiddlewareToGroup
+     * @method static void pushMiddlewareToGroup(string $group, string $middleware)
+     * @see \Illuminate\Routing\Router::patterns
+     * @method static void patterns(array $patterns)
+     * @see \Illuminate\Routing\Router::respondWithRoute
+     * @method static \Symfony\Component\HttpFoundation\Response respondWithRoute(string $name)
+     * @see \Illuminate\Routing\Router::getMiddlewareGroups
+     * @method static array getMiddlewareGroups()
+     * @see \Illuminate\Routing\Router::dispatchToRoute
+     * @method static \Symfony\Component\HttpFoundation\Response dispatchToRoute(\Illuminate\Http\Request $request)
+     * @see \Illuminate\Routing\Router::getRoutes
+     * @method static \Illuminate\Routing\RouteCollection|\Illuminate\Routing\RouteCollectionInterface getRoutes()
+     * @see \Illuminate\Routing\Router::apiResource
+     * @method static \Illuminate\Routing\PendingResourceRegistration apiResource(string $name, string $controller, array $options = [])
+     * @see \Illuminate\Support\Traits\Macroable::mixin
+     * @method static void mixin(object $mixin, bool $replace = true)
+     * @see \Illuminate\Routing\RouteRegistrar::name
+     * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
+     * @see \Illuminate\Routing\Router::fallback
+     * @method static \Illuminate\Routing\Route fallback(array|callable|null|string $action)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
+     * @see \Illuminate\Routing\Router::getGroupStack
+     * @method static array getGroupStack()
+     * @see \Illuminate\Routing\Router::delete
+     * @method static \Illuminate\Routing\Route delete(string $uri, array|callable|null|string $action = null)
+     * @see \Illuminate\Routing\Router::flushMiddlewareGroups
+     * @method static void flushMiddlewareGroups()
+     * @see \Illuminate\Routing\Router::setCompiledRoutes
+     * @method static void setCompiledRoutes(array $routes)
+     * @see \Illuminate\Routing\Router::getMiddleware
+     * @method static array getMiddleware()
+     * @see \Illuminate\Routing\Router::resourceParameters
+     * @method static void resourceParameters(array $parameters = [])
      * @see \Illuminate\Routing\RouteRegistrar::middleware
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|null|string $middleware)
      * @see \Illuminate\Routing\Router::mergeWithLastGroup
      * @method static array mergeWithLastGroup(array $new, bool $prependExistingPrefix = true)
-     * @see \Illuminate\Routing\Router::redirect
-     * @method static \Illuminate\Routing\Route redirect(string $uri, string $destination, int $status = 302)
      * @see \Illuminate\Support\Traits\Macroable::macro
      * @method static void macro(string $name, callable|object $macro)
-     * @see \Illuminate\Routing\Router::middlewareGroup
-     * @method static void middlewareGroup(string $name, array $middleware)
-     * @see \Illuminate\Routing\Router::currentRouteNamed
-     * @method static bool currentRouteNamed(...$patterns)
      * @see \Illuminate\Routing\Router::match
      * @method static \Illuminate\Routing\Route match(array|string $methods, string $uri, array|callable|null|string $action = null)
      * @see \Illuminate\Routing\Router::resources
      * @method static void resources(array $resources, array $options = [])
      * @see \Illuminate\Routing\Router::any
      * @method static \Illuminate\Routing\Route any(string $uri, array|callable|null|string $action = null)
-     * @see \Illuminate\Routing\Router::getCurrentRequest
-     * @method static \Illuminate\Http\Request getCurrentRequest()
      * @see \Illuminate\Routing\Router::setRoutes
      * @method static void setRoutes(\Illuminate\Routing\RouteCollection $routes)
-     * @see \Illuminate\Routing\Router::prepareResponse
-     * @method static \Symfony\Component\HttpFoundation\Response prepareResponse(\Symfony\Component\HttpFoundation\Request $request, $response)
-     * @see \Illuminate\Routing\Router::getCurrentRoute
-     * @method static \Illuminate\Routing\Route|null getCurrentRoute()
      * @see \Illuminate\Routing\RouteRegistrar::namespace
      * @method static \Illuminate\Routing\RouteRegistrar namespace(null|string $value)
      * @see \Illuminate\Routing\Router::uses
      * @method static bool uses(...$patterns)
-     * @see \Illuminate\Support\Traits\Macroable::macroCall
-     * @method static mixed macroCall(string $method, array $parameters)
-     * @see \Illuminate\Routing\Router::getPatterns
-     * @method static array getPatterns()
      */
     class Route {}
     
@@ -2500,6 +2558,8 @@ namespace Illuminate\Support\Facades {
      * @method static void setRequest(\Illuminate\Http\Request $request)
      * @see \Illuminate\Routing\UrlGenerator::isValidUrl
      * @method static bool isValidUrl(string $path)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\Routing\UrlGenerator::full
      * @method static string full()
      * @see \Illuminate\Routing\UrlGenerator::getDefaultParameters
@@ -2560,6 +2620,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Contracts\Container\Container|null getContainer()
      * @see \Illuminate\Validation\Factory::getTranslator
      * @method static \Illuminate\Contracts\Translation\Translator getTranslator()
+     * @see \Illuminate\Validation\Factory::excludeUnvalidatedArrayKeys
+     * @method static void excludeUnvalidatedArrayKeys()
      * @see \Illuminate\Validation\Factory::make
      * @method static \Illuminate\Validation\Validator make(array $data, array $rules, array $messages = [], array $customAttributes = [])
      * @see \Illuminate\Validation\Factory::getPresenceVerifier
@@ -2624,6 +2686,8 @@ namespace Illuminate\Support\Facades {
      * @method static string yieldSection()
      * @see \Illuminate\View\Concerns\ManagesLayouts::appendSection
      * @method static string appendSection()
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Illuminate\View\Factory::shared
      * @method static mixed shared(string $key, $default = null)
      * @see \Illuminate\View\Concerns\ManagesEvents::composers
@@ -2638,12 +2702,14 @@ namespace Illuminate\Support\Facades {
      * @method static void flushSections()
      * @see \Illuminate\View\Factory::getFinder
      * @method static \Illuminate\View\ViewFinderInterface getFinder()
+     * @see \Illuminate\View\Concerns\ManagesComponents::getConsumableComponentData
+     * @method static mixed|null getConsumableComponentData(string $key, $default = null)
      * @see \Illuminate\View\Concerns\ManagesLayouts::parentPlaceholder
      * @method static string parentPlaceholder(string $section = '')
      * @see \Illuminate\View\Concerns\ManagesLayouts::getSection
      * @method static mixed|null|string getSection(string $name, null|string $default = null)
      * @see \Illuminate\View\Concerns\ManagesComponents::slot
-     * @method static void slot(string $name, null|string $content = null)
+     * @method static void slot(string $name, null|string $content = null, array $attributes = [])
      * @see \Illuminate\View\Factory::doneRendering
      * @method static bool doneRendering()
      * @see \Illuminate\View\Concerns\ManagesLoops::addLoop
@@ -2712,6 +2778,37 @@ namespace Illuminate\Support\Facades {
     class View {}
 }
 
+namespace Inertia {
+    
+    /**
+     * @see \Illuminate\Support\Traits\Macroable::macro
+     * @method static void macro(string $name, callable|object $macro)
+     * @see \Inertia\ResponseFactory::lazy
+     * @method static \Inertia\LazyProp lazy(callable $callback)
+     * @see \Inertia\ResponseFactory::getVersion
+     * @method static string getVersion()
+     * @see \Inertia\ResponseFactory::getShared
+     * @method static array getShared($key = null)
+     * @see \Inertia\ResponseFactory::version
+     * @method static void version($version)
+     * @see \Illuminate\Support\Traits\Macroable::mixin
+     * @method static void mixin(object $mixin, bool $replace = true)
+     * @see \Illuminate\Support\Traits\Macroable::hasMacro
+     * @method static bool hasMacro(string $name)
+     * @see \Inertia\ResponseFactory::share
+     * @method static void share($key, $value = null)
+     * @see \Inertia\ResponseFactory::location
+     * @method static void location($url)
+     * @see \Inertia\ResponseFactory::setRootView
+     * @method static void setRootView($name)
+     * @see \Inertia\ResponseFactory::render
+     * @method static \Inertia\Response render($component, $props = [])
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
+     */
+    class Inertia {}
+}
+
 namespace Livewire {
     
     /**
@@ -2769,6 +2866,8 @@ namespace Livewire {
      * @method static false isDefinitelyLivewireRequest()
      * @see \Livewire\LivewireManager::setPersistentMiddleware
      * @method static void setPersistentMiddleware($middleware)
+     * @see \Livewire\LivewireManager::flushState
+     * @method static void flushState()
      * @see \Livewire\LivewireManager::styles
      * @method static void styles($options = [])
      * @see \Livewire\LivewireManager::visit
@@ -2810,6 +2909,8 @@ namespace Yajra\DataTables\Facades {
      * @method static \Yajra\DataTables\Utilities\Request getRequest()
      * @see \Yajra\DataTables\DataTables::make
      * @method static mixed make($source)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      */
     class DataTables {}
 }
