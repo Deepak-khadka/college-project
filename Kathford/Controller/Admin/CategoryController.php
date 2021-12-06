@@ -35,7 +35,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             dd('here ');
         }
         $data = [];
@@ -71,39 +71,42 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param $slug
-     * @return Application|Factory|View|Response
+     * @return Application|Factory|View
      */
 
     public function show($slug)
     {
-       $category =  $this->categoryService->findBySlug($slug);
-      return  \view('admin.category.show', compact('category'));
+        $category = $this->categoryService->findBySlug($slug);
+        return view('admin.category.show', compact('category'));
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Category $id
-     * @return Application|Factory|View|Response
+     * @param $slug
+     * @return Application|Factory|View
      */
 
-    public function edit(Category $id)
+    public function edit($slug)
     {
-
+        $data = [];
+        $data['category'] = $this->categoryService->findBySlug($slug);
+        $data['parent_categories'] = $this->categoryService->getParentCategories();
+        return view('admin.category.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Category $id
-     * @return Application|Factory|View|Response
+     * @param Category $slug
+     * @return void
      */
 
-    public function update(Request $request, Category $id)
+    public function update(Request $request, Category $slug)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -12,8 +12,16 @@
                 </small>
             </h1>
         </div>
+
         <div class="d-flex align-items-center py-1">
-            <a href="{{ route('admin.'.$panel.'.create') }}" class="btn btn-sm btn-primary">Create</a>
+            <a href="{{ route('admin.'.$panel.'.create') }}" class="btn btn-sm btn-primary">
+                Create
+            </a>
+
+            <a href="{{ route('admin.'.$panel.'.index') }}" class="btn btn-sm btn-primary" style="margin-left: 5px">
+                List
+            </a>
+
         </div>
     </div>
 </div>

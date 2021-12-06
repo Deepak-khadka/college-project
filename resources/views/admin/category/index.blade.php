@@ -108,7 +108,7 @@
 																</span>
                                     <!--end::Svg Icon-->
                                 </a>
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                <a href="{{ route('admin.category.edit', $category->slug) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
                                     <span class="svg-icon svg-icon-3">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24px"

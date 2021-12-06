@@ -6,10 +6,12 @@
                 <div class="ibox ">
                     @include('admin.layouts.partials.breadcrumb',['base'=>'category','title'=>'category','panel'=>'category'])
                     <div class="ibox-content">
-                    {!! Form::model($data['category'], ['route' => [$base['base_route'].'.update',$data['category']->id ],
+                    {!! Form::model($data['category'], ['route' => ['admin.category.update',$data['category']->slug ],
                              'method' => 'put']) !!}
                          {!! Form::hidden('id', $data['category']->id) !!}
-                        @includeIf($base['partial'].'.form')
+
+                        @includeIf('admin.category.partials.form')
+
                      {!! Form::close() !!}
                     </div>
                 </div>
